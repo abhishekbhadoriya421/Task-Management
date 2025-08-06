@@ -3,6 +3,7 @@ const {DashboardAction,AddUserAction,CreateUserAction,UpdateUserAction,UpdateUse
 
 
 // Get
+Router.get('/',(req,res)=>{res.redirect('/dashboard')})
 Router.get('/dashboard',DashboardAction);
 Router.get('/add-user',AddUserAction);
 Router.get('/update-user-form',UpdateUserFormAction);
