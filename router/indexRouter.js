@@ -1,7 +1,7 @@
 const Router = require('express').Router();
 const { DashboardAction } = require('../controller/UserController');
-const authRouter = require('./Auth');
-const userRouter = require('./User');
+const authRouter = require('./AuthRouter');
+const userRouter = require('./UserRouter');
 
 
 // Get

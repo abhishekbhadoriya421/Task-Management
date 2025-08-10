@@ -3,7 +3,7 @@ const port = 3000;
 const app = express();
 require('dotenv').config();
 const connectDb = require('./config/db');
-const routerIndex = require('./router/index');
+const routerIndex = require('./router/indexRouter');
 const flash = require('connect-flash');
 const session = require('express-session');
 const { FlashMiddleware } = require('./middleware/flashMessageMiddleware');

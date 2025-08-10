@@ -23,7 +23,7 @@
             padding: 2rem;
             background: white;
             width: 100%;
-            max-width: 400px;
+            max-width: 600px;
         }
 
         .form-control:focus {
@@ -59,9 +59,19 @@
                     <% } %>
     </div>
     <div class="login-card">
-        <h3 class="text-center mb-4">Welcome Back</h3>
-        <form action="/auth/user-login" method="POST">
+        <h3 class="text-center mb-4">Create Account</h3>
+        <form action="/auth/user-create" method="POST">
             <!-- Email -->
+            <div class="mb-3">
+                <label for="user_name" class="form-label">Username</label>
+                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Enter your name"
+                    required>
+            </div>
+            <div>
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="number" class="form-control" name="mobile_number" id="mobile"
+                    placeholder="Enter Mobile Number" required>
+            </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" name="user_email" id="email" placeholder="Enter email"
@@ -74,20 +84,21 @@
                 <input type="password" class="form-control" name="user_password" id="password"
                     placeholder="Enter password" required>
             </div>
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="confirm_password" id="confirm_password"
+                    placeholder="Confirm password" required>
+            </div>
 
-            <!-- Remember Me -->
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="remember">
-                <label class="form-check-label" for="remember">Remember me</label>
+            <div class="mb-3">
+                <label for="user_type" class="form-label">User Type</label>
+                <input type="text" class="form-control" name="user_type" id="user_type" placeholder="User Type"
+                    required>
             </div>
 
             <!-- Submit -->
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-
-            <!-- Links -->
-            <div class="text-center mt-3">
-                <a href="#">Forgot password?</a> | <a href="#">Sign up</a>
-            </div>
+            <button type="submit" class="btn btn-primary w-100">Create</button>
         </form>
     </div>
 
