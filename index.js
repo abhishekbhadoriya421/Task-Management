@@ -7,7 +7,10 @@ const routerIndex = require('./router/index');
 const flash = require('connect-flash');
 const session = require('express-session');
 const { FlashMiddleware } = require('./middleware/flashMessageMiddleware');
-const UserLogin = require('./router/Auth');
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+
 
 connectDb();
 
@@ -22,6 +25,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }))
+
+app.use(cookieParser());
 
 /**
  * Set Flash Message

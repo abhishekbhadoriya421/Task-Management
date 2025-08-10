@@ -33,7 +33,10 @@
                 </div>
                 <div class="col-md-6">
                     <a href="http://localhost:3000/user/add-user" class="btn btn-primary float-end me-4">Add User</a>
-                    <a href="http://localhost:3000/auth/login" class="btn btn-secondary float-end me-4">LogIn</a>
+                    <a href="http://localhost:3000/auth/login" class="btn btn-secondary float-end me-4"
+                        id="loginbtn">LogIn</a>
+                    <a href="http://localhost:3000/auth/log-out" class="btn btn-secondary float-end me-4"
+                        id="logout">LogOut</a>
                 </div>
             </div>
         </div>
@@ -90,6 +93,19 @@
                     <% } %>
         </div>
     </div>
+    <script>
+        const loginBtn = document.getElementById('loginbtn');
+        const logoutBtn = document.getElementById('logout');
+
+        // const user = document.cookie
+        // if (user) {
+        //     loginBtn.style.display = 'none';
+        //     logoutBtn.style.display = 'block';
+        // } else {
+        //     loginBtn.style.display = 'block';
+        //     logoutBtn.style.display = 'none';
+        // }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
