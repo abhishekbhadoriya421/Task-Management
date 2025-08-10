@@ -10,19 +10,21 @@
 </head>
 
 <body>
-    <% if (success_msg.length>0) { %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= success_msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <% } %>
+    <div>
+        <% if (success_msg.length>0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= success_msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
 
-    <% if (error_msg.length>0) { %>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <%= error_msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <% } %>
+                <% if (error_msg.length>0) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error_msg %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -30,7 +32,8 @@
                     <h1>User Management</h1>
                 </div>
                 <div class="col-md-6">
-                    <a href="http://localhost:3000/add-user" class="btn btn-primary float-end me-4">Add User</a>
+                    <a href="http://localhost:3000/user/add-user" class="btn btn-primary float-end me-4">Add User</a>
+                    <a href="http://localhost:3000/auth/login" class="btn btn-secondary float-end me-4">LogIn</a>
                 </div>
             </div>
         </div>
@@ -38,52 +41,52 @@
             <% if(userModel.length <=0) { %>
                 <h1>No User Found</h1>
                 <%} else {%>
-            
-                        <table class="table table-bordered table-striped">
-                            <thead class="table-dark">
+
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>User Name</th>
+                                <th>User Email</th>
+                                <th>Employee ID</th>
+                                <th>Mobile Number</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% userModel.forEach((model,index)=>{
+                                const created_at_date = new Date(model.created_at * 1000).toLocaleString();
+                                %>
                                 <tr>
-                                    <th>#</th>
-                                    <th>User Name</th>
-                                    <th>User Email</th>
-                                    <th>Employee ID</th>
-                                    <th>Mobile Number</th>
-                                    <th>Created At</th>
-                                    <th>Action</th>
+                                    <td>
+                                        <%= ++index %>
+                                    </td>
+                                    <td>
+                                        <%= model.user_name %>
+                                    </td>
+                                    <td>
+                                        <%= model.user_email %>
+                                    </td>
+                                    <td>
+                                        <%= model.employee_id %>
+                                    </td>
+                                    <td>
+                                        <%= model.mobile_number %>
+                                    </td>
+                                    <td>
+                                        <%= created_at_date %>
+                                    </td>
+                                    <td><a href="http://localhost:3000/user/update-user-form?id=<%= model.id %>"
+                                            class="btn btn-warning">Update User</a>
+                                        <a href="http://localhost:3000/user/delete-user?id=<%= model.id %>"
+                                            class="btn btn-danger">Delete User</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% userModel.forEach((model,index)=>{
-                                    const created_at_date = new Date(model.created_at * 1000).toLocaleString();
-                                    %>
-                                    <tr>
-                                        <td>
-                                            <%= ++index %>
-                                        </td>
-                                        <td>
-                                            <%= model.user_name %>
-                                        </td>
-                                        <td>
-                                            <%= model.user_email %>
-                                        </td>
-                                        <td>
-                                            <%= model.employee_id %>
-                                        </td>
-                                        <td>
-                                            <%= model.mobile_number %>
-                                        </td>
-                                        <td>
-                                            <%= created_at_date %>
-                                        </td>
-                                        <td><a href="http://localhost:3000/update-user-form?id=<%= model.id %>"
-                                                class="btn btn-warning">Update User</a>
-                                            <a href="http://localhost:3000/delete-user?id=<%= model.id %>"
-                                                class="btn btn-danger">Delete User</a>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                            </tbody>
-                        </table>
-                
+                                <% }) %>
+                        </tbody>
+                    </table>
+
                     <% } %>
         </div>
     </div>

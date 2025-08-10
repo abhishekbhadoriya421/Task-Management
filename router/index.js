@@ -1,16 +1,19 @@
 const Router = require('express').Router();
-const {DashboardAction,AddUserAction,CreateUserAction,UpdateUserAction,UpdateUserFormAction,DeleteUserAction} = require('../controller/UserController');
+const { DashboardAction } = require('../controller/UserController');
+const authRouter = require('./Auth');
+const userRouter = require('./User');
 
 
 // Get
-Router.get('/',(req,res)=>{res.redirect('/dashboard')})
-Router.get('/dashboard',DashboardAction);
-Router.get('/add-user',AddUserAction);
-Router.get('/update-user-form',UpdateUserFormAction);
-Router.get('/delete-user',DeleteUserAction);
+Router.get('/', (req, res) => { res.redirect('/dashboard') })
+Router.get('/dashboard', DashboardAction);
 
-// Post 
-Router.post('/create-user',CreateUserAction);
-Router.post('/update-user',UpdateUserAction);
+
+//Router
+Router.use('/user', userRouter);
+Router.use('/auth', authRouter);
+
+
+
 
 module.exports = Router

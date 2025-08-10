@@ -8,7 +8,7 @@ exports.DashboardAction = async (req, res) => {
 };
 
 exports.AddUserAction = async (req, res) => {
-  return res.status(200).render("add_user_form");
+  return res.status(200).render("user/add_user_form");
 };
 
 exports.CreateUserAction = async (req, res) => {
@@ -17,7 +17,7 @@ exports.CreateUserAction = async (req, res) => {
       const { user_name, user_email, employee_id, mobile_number } = req.body;
       const model = new CoreUser();
       model.user_name = user_name;
-      //   model.user_email = user_email;
+      model.user_email = user_email;
       model.employee_id = employee_id;
       model.mobile_number = mobile_number;
       await model.save();
@@ -25,7 +25,7 @@ exports.CreateUserAction = async (req, res) => {
         "success_msg",
         `User Has Been Created: [username:${model.user_name}]`
       );
-      return res.status(200).redirect("dashboard");
+      return res.status(200).redirect("/dashboard");
     } catch (err) {
       let errormsg = Object.values(err.errors)
         .map((value) =>
@@ -33,14 +33,14 @@ exports.CreateUserAction = async (req, res) => {
         )
         .join(" ");
       console.log(typeof errormsg);
-      req.flash("error_msg",'This is Error');
-      return res.status(500).render("add_user_form", {
+      req.flash("error_msg", 'This is Error');
+      return res.status(500).render("user/add_user_form", {
         message: "Something went wrong",
       });
     }
   } else {
     req.flash("error_msg", "Invalid Request");
-    return res.status(403).redirect("dashboard");
+    return res.status(403).redirect("/dashboard");
   }
 };
 
@@ -48,15 +48,15 @@ exports.UpdateUserFormAction = async (req, res) => {
   const id = req.query.id;
   if (!id) {
     req.flash("error_msg", "Invalid Request");
-    return res.status(403).redirect("dashboard");
+    return res.status(403).redirect("/dashboard");
   } else {
     //Find User Model
     const model = await CoreUser.find({ _id: id });
     if (model.length <= 0) {
       req.flash("error_msg", "Record Not Found");
-      return res.status(404).redirect("dashboard");
+      return res.status(404).redirect("/dashboard");
     } else {
-      return res.status(200).render("update-user-form", {
+      return res.status(200).render("user/update-user-form", {
         model: model,
       });
     }
@@ -66,7 +66,7 @@ exports.UpdateUserFormAction = async (req, res) => {
 exports.UpdateUserAction = async (req, res) => {
   if (req.method !== "POST") {
     req.flash("error_msg", "Invalid Request");
-    return res.status(403).redirect("dashboard");
+    return res.status(403).redirect("/dashboard");
   } else {
     try {
       const { id, user_name, user_email, employee_id, mobile_number } =
@@ -75,7 +75,7 @@ exports.UpdateUserAction = async (req, res) => {
       const model = await CoreUser.findById(id);
       if (model.length <= 0) {
         req.flash("error_msg", "Record Not Found");
-        return res.status(404).redirect("dashboard", {
+        return res.status(404).redirect("/dashboard", {
           message: "User Not Found",
         });
       } else {
@@ -85,11 +85,11 @@ exports.UpdateUserAction = async (req, res) => {
         model.mobile_number = mobile_number;
         await model.save();
         req.flash("success_msg", "You Details Are Successfully Updated");
-        return res.status(200).redirect("dashboard");
+        return res.status(200).redirect("/dashboard");
       }
     } catch (err) {
       req.flash("error_msg", err.errors);
-      return res.status(500).render("update-user-form", {
+      return res.status(500).render("user/update-user-form", {
         model: model,
       });
     }
@@ -103,17 +103,17 @@ exports.DeleteUserAction = async (req, res) => {
       const model = await CoreUser.findByIdAndDelete(id);
       if (model) {
         req.flash("success_msg", "record has been deleted successfully");
-        return res.status(200).redirect("dashboard");
+        return res.status(200).redirect("/dashboard");
       } else {
         req.flash("error_msg", "Record not found");
-        return res.status(200).redirect("dashboard");
+        return res.status(200).redirect("/dashboard");
       }
     } catch (err) {
       req.flash("error_msg", err.message);
-      return res.status(500).redirect("dashboard");
+      return res.status(500).redirect("/dashboard");
     }
   } else {
     req.flash("error_msg", "Invalid request");
-    return res.status(403).redirect("dashboard");
+    return res.status(403).redirect("/dashboard");
   }
 };
