@@ -1,9 +1,13 @@
 const CoreUser = require("../models/CoreUser");
+const { GetUserSession } = require("../servies/AuthServices");
+
 
 exports.DashboardAction = async (req, res) => {
   const userModel = await CoreUser.find();
   return res.status(200).render("dashboard", {
     userModel: userModel,
+    login_status: GetUserSession(req),
+    user: GetUserSession(req) || null,
   });
 };
 
