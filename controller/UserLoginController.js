@@ -4,6 +4,7 @@ const { uuid } = require('uuidv4');
 const { DestroyUserSession, SetUserSession, GetUserSession } = require('../servies/AuthServices');
 const session = require('express-session');
 const store = new session.MemoryStore();
+const { Generate_JWT_Token } = require('../servies/AuthServices');
 
 module.exports.LoginFormAction = (req, res) => {
     // Check if user is already logged in
@@ -37,8 +38,16 @@ module.exports.UserLoginAction = async (req, res) => {
         return res.redirect('/auth/login');
     }
 
+    // JWT Token Generation
+    const token = Generate_JWT_Token(req, user);
     // Store user information in session
-    SetUserSession(req, user);
+    // SetUserSession(req, user);
+    res.cookie('access_token', token, {
+        httpOnly: true,
+        secure: false, // true in production with HTTPS
+        sameSite: 'strict',
+        maxAge: 3600000
+    })
     req.flash('success_msg', 'Login successful');
     // Redirect to dashboard or home page
     return res.redirect('/dashboard');

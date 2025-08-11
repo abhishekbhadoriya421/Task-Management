@@ -2,11 +2,12 @@ const Router = require('express').Router();
 const { DashboardAction } = require('../controller/UserController');
 const authRouter = require('./AuthRouter');
 const userRouter = require('./UserRouter');
+const { UserAuthCheckWithJWT } = require('../middleware/UserAuthCheckMiddleware');
 
 
 // Get
 Router.get('/', (req, res) => { res.redirect('/dashboard') })
-Router.get('/dashboard', DashboardAction);
+Router.get('/dashboard', UserAuthCheckWithJWT, DashboardAction);
 
 
 //Router

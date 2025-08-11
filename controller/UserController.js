@@ -4,6 +4,7 @@ const { GetUserSession } = require("../servies/AuthServices");
 
 exports.DashboardAction = async (req, res) => {
   const userModel = await CoreUser.find();
+  console.log('logine')
   return res.status(200).render("dashboard", {
     userModel: userModel,
     login_status: GetUserSession(req),
