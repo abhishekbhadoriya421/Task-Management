@@ -1,14 +1,14 @@
 const CoreUser = require("../models/CoreUser");
-const { GetUserSession } = require("../servies/AuthServices");
+const { GetUserSession, Verify_JWT_Token } = require("../servies/AuthServices");
 
 
 exports.DashboardAction = async (req, res) => {
   const userModel = await CoreUser.find();
-  console.log('logine')
+  decode = Verify_JWT_Token(req.cookies.access_token.token || req.headers["authorization"]);
   return res.status(200).render("dashboard", {
     userModel: userModel,
-    login_status: GetUserSession(req),
-    user: GetUserSession(req) || null,
+    login_status: decode ? true : false,
+    user: decode ? decode : null,
   });
 };
 

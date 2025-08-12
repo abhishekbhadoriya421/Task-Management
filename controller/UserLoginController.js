@@ -1,7 +1,7 @@
 const e = require('connect-flash');
 const LoginUser = require('../models/LoginUser');
 const { uuid } = require('uuidv4');
-const { DestroyUserSession, SetUserSession, GetUserSession } = require('../servies/AuthServices');
+const { DestroyUserSession, SetUserSession, GetUserSession, Destroy_token } = require('../servies/AuthServices');
 const session = require('express-session');
 const store = new session.MemoryStore();
 const { Generate_JWT_Token } = require('../servies/AuthServices');
@@ -115,8 +115,8 @@ module.exports.CreateUserAction = async (req, res) => {
 // Logout action
 
 module.exports.LogOutAction = (req, res) => {
-    // Destroy the user session
-    const sessionDestroyed = DestroyUserSession(req);
+    const token = req.cookies.access_token.token || req.headers['authorization'];
+    const sessionDestroyed = Destroy_token(req, res, token);
     if (sessionDestroyed) {
         // req.flash('success_msg', 'You have been logged out successfully');
         console.log("User logged out successfully");

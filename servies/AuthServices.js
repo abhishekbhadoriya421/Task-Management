@@ -1,20 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-/**
- * Authentication Service using JWT (JSON Web Token)
- * This service provides methods to generate, verify, and decode JWTs.
- * It uses the 'jsonwebtoken' library for handling JWT operations.
- * It is designed to work with user authentication in a web application.
- * It includes methods to set user sessions, get user sessions, and destroy user sessions.
- * It is important to ensure that the secret key used for signing the JWT is kept secure and not exposed in the client-side code.
- * It is also important to handle errors properly, especially when dealing with user sessions and JWTs.
- * It is recommended to use HTTPS for secure transmission of JWTs and user data.
- * It is also recommended to implement proper error handling and logging mechanisms to track issues related to authentication and session management.
- * It is important to validate user input and sanitize data to prevent security vulnerabilities such as SQL injection and cross-site scripting (XSS) attacks.
- * It is also important to implement proper access control mechanisms to restrict access to sensitive resources based on user roles and permissions.
- * It is recommended to use environment variables to store sensitive information such as secret keys and database connection strings.
- */
+
 const Tokens = [];
+const RefreshTokens = [];
 module.exports.Generate_JWT_Token = (req, user) => {
     if (!req || !user) {
         throw new Error('Request and user must be provided to generate JWT token');
@@ -30,12 +18,31 @@ module.exports.Generate_JWT_Token = (req, user) => {
         {
             id: user._id,
             user_name: user.user_name,
+            user_type: user.user_type,
         },
         process.env.JWT_SECRET_KEY, // Use the secret key from environment variables
         { expiresIn: '1h' }
     )
     Tokens.push(token); // Store the token in the Tokens array for tracking
     return { token };
+}
+
+
+module.exports.Generate_Refresh_JWT_Token = (req, user) => {
+    if (!req || !user) {
+        throw new Error('Request and user must be provided to generate JWT token');
+        return;
+    }
+    const refreshToken = jwt.sign(
+        {
+            id: user._id,
+            user_name: user.user_name,
+        },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: '1h' }
+    )
+    RefreshTokens.push(refreshToken);
+    return { refreshToken };
 }
 
 module.exports.Verify_JWT_Token = (token) => {
@@ -48,8 +55,8 @@ module.exports.Verify_JWT_Token = (token) => {
                 console.error('JWT token verification failed:', err);
                 return false;
             }
-            console.log('JWT token is valid:', decoded);
-            return true;
+
+            return decoded;
         });
         return validate;
     } catch (error) { // Handle any errors that occur during token verification or handle before server crash
@@ -58,12 +65,34 @@ module.exports.Verify_JWT_Token = (token) => {
     }
 }
 
-module.exports.Destroy_token = (token) => {
+
+module.exports.Verify_Refresh_JWT_Token = (token) => {
+    if (!token) {
+        return false;
+    }
+    try {
+        const validate = jwt.verify(token, process.env.JWT_REFRESH_SECRET_KEY, (err, decoded) => {
+            if (err) {
+                console.error('JWT Refresh token verification failed:', err);
+                return false;
+            }
+            console.log('JWT Refresh token is valid:', decoded);
+            return true;
+        });
+        return validate;
+    } catch (error) { // Handle any errors that occur during token verification or handle before server crash
+        console.error('Error Refresh verifying JWT token:', error);
+        return false;
+    }
+}
+
+module.exports.Destroy_token = (req, res, token) => {
     if (!token) {
         console.error('No token provided to destroy');
         return false;
     }
-    Tokens.splice(Tokens.indexOf(token), 1); // Remove the token from the Tokens array
+    res.clearCookie('access_token');
+    Tokens.splice(Tokens.indexOf(token), 1);
     console.log('Token destroyed successfully');
     return true;
 }

@@ -13,19 +13,21 @@ const UserAuthCheck = (req, res, next) => {
 
 
 const UserAuthCheckWithJWT = (req, res, next) => {
+    if (!req.cookies || !req.cookies.access_token || !req.cookies.access_token.token) {
+        return res.redirect('/auth/login');
+    }
     const token = req.cookies.access_token.token || req.headers['authorization'];
     if (!token) {
-        console.error('No JWT token provided');
         return res.redirect('/auth/login');
     }
     const isValid = Verify_JWT_Token(token);
     if (!isValid) {
-        console.error('Invalid JWT token');
         return res.redirect('/auth/login');
     }
-    console.log('JWT token is valid');
     next();
 }
+
+
 
 module.exports = {
     UserAuthCheck: UserAuthCheck,
