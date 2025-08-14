@@ -32,6 +32,7 @@
                     <h1>User Management</h1>
                 </div>
                 <div class="col-md-6 text-end">
+                    <a href="/task-management/create-task-form" class="btn btn-primary" target="_blank">Create Task</a>
                     <a href="http://localhost:3000/user/add-user" class="btn btn-primary me-3">Add User</a>
                     <% if(login_status===false) { %>
                         <a href="http://localhost:3000/auth/login" class="btn btn-secondary me-3"
@@ -62,6 +63,7 @@
                                 <th>User Email</th>
                                 <th>Employee ID</th>
                                 <th>Mobile Number</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Action</th>
                             </tr>
@@ -85,6 +87,9 @@
                                     </td>
                                     <td>
                                         <%= model.mobile_number %>
+                                    </td>
+                                    <td>
+                                        <%= model.status %>
                                     </td>
                                     <td>
                                         <%= created_at_date %>

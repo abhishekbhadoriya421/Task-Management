@@ -19,12 +19,13 @@ exports.AddUserAction = async (req, res) => {
 exports.CreateUserAction = async (req, res) => {
   if (req.method === "POST") {
     try {
-      const { user_name, user_email, employee_id, mobile_number } = req.body;
+      const { user_name, user_email, employee_id, mobile_number, status } = req.body;
       const model = new CoreUser();
       model.user_name = user_name;
       model.user_email = user_email;
       model.employee_id = employee_id;
       model.mobile_number = mobile_number;
+      model.status = status || "Active"; // Default to 'Active' if not provided
       await model.save();
       req.flash(
         "success_msg",
@@ -74,7 +75,7 @@ exports.UpdateUserAction = async (req, res) => {
     return res.status(403).redirect("/dashboard");
   } else {
     try {
-      const { id, user_name, user_email, employee_id, mobile_number } =
+      const { id, user_name, user_email, employee_id, mobile_number, status } =
         req.body;
       //Find User Model
       const model = await CoreUser.findById(id);
@@ -88,6 +89,7 @@ exports.UpdateUserAction = async (req, res) => {
         model.user_email = user_email;
         model.employee_id = employee_id;
         model.mobile_number = mobile_number;
+        model.status = status || "Active"; // Default to 'Active' if not provided
         await model.save();
         req.flash("success_msg", "You Details Are Successfully Updated");
         return res.status(200).redirect("/dashboard");

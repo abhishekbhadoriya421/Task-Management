@@ -14,7 +14,7 @@ const TaskListSchema = mongoose.Schema({
     task_status: {
         type: String,
         required: true,
-        enum: ['Pending', 'In Progress', 'Completed'],
+        enum: ['Pending', 'In-Progress', 'Completed'],
         default: 'Pending'
     },
     task_priority: {
@@ -27,6 +27,9 @@ const TaskListSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CoreUser',
         required: true
+    },
+    due_date: {
+        type: Date,
     },
     task_created_by: {
         type: mongoose.Schema.Types.ObjectId,

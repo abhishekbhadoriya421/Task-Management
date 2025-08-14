@@ -51,7 +51,13 @@
                 <input type="number" class="form-control" id="mobile_number" name="mobile_number" required
                   value="<%= model[0]['mobile_number'] %>">
               </div>
-
+              <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" required>
+                  <option value="Active" <%=model.status==='Active' ? 'selected' : '' %>>Active</option>
+                  <option value="Inactive" <%=model.status==='Inactive' ? 'selected' : '' %>>Inactive</option>
+                </select>
+              </div>
               <button type="submit" class="btn btn-primary">Update</button>
             </form>
           </div>
