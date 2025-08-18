@@ -13,9 +13,10 @@ Router.get('/dashboard', UserAuthCheckWithJWT, DashboardAction);
 
 
 //Router
-Router.use('/user',CheckAdminUserTypeMiddleware, userRouter);
+Router.use('/user', userRouter);
 Router.use('/auth', authRouter);
-Router.use('/task-management',UserAuthCheckWithJWT,taskManagementRouter);
+Router.use('/task-management',taskManagementRouter);
 
 
 module.exports = Router
+

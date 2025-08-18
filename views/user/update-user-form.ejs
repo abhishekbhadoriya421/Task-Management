@@ -23,7 +23,7 @@
         <% } %>
           <div class="container mt-5">
             <h2>Update User</h2>
-            <form id="userForm" method="POST" action="http://localhost:3000/user/update-user?id=<%= model[0]['_id'] %>">
+            <form id="userForm" method="POST" action="update-user?id=<%= model[0]['_id'] %>">
               <div class="mb-3">
                 <input type="text" class="form-control" id="id" name="id" required hidden
                   value="<%= model[0]['_id'] %>">

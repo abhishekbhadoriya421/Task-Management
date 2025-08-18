@@ -4,10 +4,10 @@ const CoreUser = require('../models/CoreUser.js');
 
 exports.ViewTaskListAction = async (req, res) => {
     const taskList = await TaskList.find().sort({ _id: -1 }).populate('task_assigned_to');
-    // return res.json(taskList);
-    return res.status(200).render('task-management/view-task-list', {
-        'taskList': taskList
-    });
+    return res.status(200).json(taskList);
+    // return res.status(200).render('task-management/view-task-list', {
+    //     'taskList': taskList
+    // });
 }
 
 exports.CreateTaskFormAction = async (req, res) => {

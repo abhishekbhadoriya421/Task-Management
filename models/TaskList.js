@@ -34,12 +34,12 @@ const TaskListSchema = mongoose.Schema({
     task_created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'LoginUser',
-        required: true
+        // required: true
     },
     task_updated_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'LoginUser',
-        required: true
+        // required: true
     },
     task_created_at: {
         type: Date,

@@ -12,6 +12,14 @@ exports.DashboardAction = async (req, res) => {
   });
 };
 
+exports.GetUsersListAction = async (req,res)=>{
+  const userModel = await CoreUser.find();
+  return res.status(200).json({
+    user:userModel,
+    message:'successfully'
+  });
+}
+
 exports.AddUserAction = async (req, res) => {
   return res.status(200).render("user/add_user_form");
 };
@@ -27,26 +35,28 @@ exports.CreateUserAction = async (req, res) => {
       model.mobile_number = mobile_number;
       model.status = status || "Active"; // Default to 'Active' if not provided
       await model.save();
-      req.flash(
-        "success_msg",
-        `User Has Been Created: [username:${model.user_name}]`
-      );
-      return res.status(200).redirect("/dashboard");
+        console.log("successfully saved");
+      return res.status(200).json({
+        model:model,
+        message:'User is created successfully'
+      });
     } catch (err) {
+      
       let errormsg = Object.values(err.errors)
         .map((value) =>
           typeof value === "object" ? JSON.stringify(value) : value
         )
         .join(" ");
-      console.log(typeof errormsg);
-      req.flash("error_msg", 'This is Error');
-      return res.status(500).render("user/add_user_form", {
-        message: "Something went wrong",
+
+        return res.status(500).json({
+        message:errormsg
       });
     }
   } else {
     req.flash("error_msg", "Invalid Request");
-    return res.status(403).redirect("/dashboard");
+    return  res.status(403).json({
+        message:'Invalid Request'
+      });
   }
 };
 

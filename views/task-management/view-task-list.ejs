@@ -69,15 +69,17 @@
                     <%= new Date(task.due_date).toLocaleDateString() %>
                   </td>
                   <td>
-                    <% if(task.status==='Active' ) { %>
-                      <span class="badge bg-success status-badge">Active</span>
-                      <% } else { %>
-                        <span class="badge bg-secondary status-badge">Inactive</span>
-                        <% } %>
+                    <% if(task.task_status==='Pending' ) { %>
+                      <span class="badge bg-secondary status-badge">Pending</span>
+                      <% } else if(task.task_status==='In-Progress' ) { %>
+                        <span class="badge bg-warning status-badge">In Progress</span>
+                        <% }else{ %>
+                          <span class="badge bg-success status-badge">Completed</span>
+                          <% } %>
                   </td>
                   <td>
-                    <a href="edit/<%= task._id %>" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="delete/<%= task._id %>" class="btn btn-sm btn-danger"
+                    <a href="edit?id = <%= task._id %>" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="delete?id = <%= task._id %>" class="btn btn-sm btn-danger"
                       onclick="return confirm('Are you sure?')">Delete</a>
                   </td>
                 </tr>

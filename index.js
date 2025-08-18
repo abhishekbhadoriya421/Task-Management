@@ -1,5 +1,5 @@
 const express = require('express');
-const port = 3000;
+const port = 8080;
 const app = express();
 require('dotenv').config();
 const connectDb = require('./config/db');
@@ -8,12 +8,14 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const { FlashMiddleware } = require('./middleware/flashMessageMiddleware');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 app.use(cookieParser());
 
 
 connectDb();
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // to handle form data
 app.set('view engine', 'ejs');
 
@@ -28,6 +30,7 @@ app.use(session({
 
 app.use(cookieParser());
 
+app.use(cors({origin:'http://localhost:3000'}));
 /**
  * Set Flash Message
  */
